@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -38,9 +39,25 @@ const userSchema = new mongoose.Schema({
             if (value < 0)
                 throw new Error('Age must be a positive number.');
         }
-    }
+    },
+    tokens: [{
+        token: {
+            type: String,
+            required: true
+        }
+    }]
 });
 
+//created method can be accessed on the instance
+userSchema.methods.generateAuthToken = async function () {
+    const user = this;
+    const token = jwt.sign({ _id: user._id.toString() }, 'task-manager');
+    user.tokens = user.tokens.concat({ token });
+    await user.save();
+    return token;
+}
+
+//created method can be accessed on the model
 userSchema.statics.findByCred = async (email, password) => {
     const user = await User.findOne({ email });
 
