@@ -5,7 +5,15 @@ const auth = require('../middleware/auth');
 
 const router = express.Router();
 const upload = new multer({
-    dest: 'avatars'
+    dest: 'avatars',
+    limits: {
+        fileSize: 1000000   //1 megabyte
+    }, fileFilter(req, file, callback) {
+        if (!file.originalname.match(/\.(png|jpg|jpeg)$/))
+            return callback(new Error('Please upload an image.'));
+
+        callback(undefined, true);
+    }
 });
 
 router.post('/users', async (req, res) => {
