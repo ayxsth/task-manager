@@ -122,7 +122,7 @@ Like the other requests, **DELETE** request also requires authentication to perf
 
 ## Deployment
 
--   [NineTaskToDo](https://https://ninetasktodo.herokuapp.com/)
+-   [NineTaskToDo](https://ninetasktodo.herokuapp.com/) (_API ONLY_)
 
 ## Prerequisite
 
